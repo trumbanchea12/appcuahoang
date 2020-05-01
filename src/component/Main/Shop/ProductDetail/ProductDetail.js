@@ -20,14 +20,12 @@ class ProductDetail extends Component {
         navigation.pop();
     }
     onAddToCart = (product) => {
-        this.props.actAddToCart(product,quantity);
+        console.log('lol')
+        this.props.onAddToCart(product);
     }
     render() {
         const { route } = this.props;
-        const { id, name, idType, 
-            nameType, price, color,
-            material, description, 
-            images} = route.params;
+
         const { product } = route.params;
 
         const {
@@ -44,8 +42,8 @@ class ProductDetail extends Component {
                         <TouchableOpacity onPress={this.goBack.bind(this)}>
                             <Image style={backStyle} source={back} />
                         </TouchableOpacity>
-                        <TouchableOpacity>
-                            <Image style={cartStyle} source={cart} onPress= {()=> this.onAddToCart(product)} />
+                        <TouchableOpacity onPress={() => this.onAddToCart(product)}>
+                            <Image style={cartStyle} source={cart} />
                         </TouchableOpacity>
                     </View>
                     <View style={imageContainer}>
@@ -84,7 +82,7 @@ const mapDispatchToProps = dispatch => {
         onAddToCart: (product) => dispatch(actAddToCart({ product, quantity: 1 })),
     }
 }
-export default connect(null,mapDispatchToProps)(ProductDetail);
+export default connect(null, mapDispatchToProps)(ProductDetail);
 
 const { width } = Dimensions.get('window');
 const swiperWidth = (width / 1.8) - 30;
@@ -135,18 +133,18 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     textBlack: {
-        
+
         fontSize: 20,
         fontWeight: 'bold',
         color: '#3F3F46'
     },
     textSmoke: {
-        
+
         fontSize: 20,
         color: '#9A9A9A'
     },
     textHighlight: {
-        
+
         fontSize: 20,
         color: '#7D59C8'
     },
@@ -181,12 +179,12 @@ const styles = StyleSheet.create({
         color: '#C21C70',
         fontSize: 15,
         fontWeight: '400',
-        
+
     },
     txtMaterial: {
         color: '#C21C70',
         fontSize: 15,
         fontWeight: '400',
-        
+
     }
 });

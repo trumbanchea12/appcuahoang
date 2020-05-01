@@ -74,15 +74,7 @@ class CartView extends Component {
                                     <TouchableOpacity style={showDetailContainer}>
                                         <Text style={txtShowDetail} onPress={() => {
                                             navigation.navigate('ProductDetail', {
-                                                id : item.product.id,
-                                                name: item.product.name,
-                                                idType: item.product.idType,
-                                                nameType: item.product.nameType,
-                                                price: item.product.price,
-                                                color: item.product.color,
-                                                material: item.product.material,
-                                                description: item.product.description,
-                                                images: item.product.images
+                                                product : item.product
                                             })
                                         } } >SHOW DETAILS</Text>
                                     </TouchableOpacity>
