@@ -7,9 +7,8 @@ import { connect } from 'react-redux';
 import sp1 from '../../.././../media/temp/sp1.jpeg';
 import { FlatList } from 'react-native-gesture-handler';
 
-function toTitleCase(str) {
-    return str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-}
+import { actRemoveFromCart } from './../../../../action/CartAtion';
+
 const url = 'http://vaomua.club/ungdung/images/product/';
 
 class CartView extends Component {
@@ -34,6 +33,11 @@ class CartView extends Component {
         
         return total;
     } 
+
+    onRemoveFromCart = ( item ) => {
+        this.props.onRemoveFromCart(item);
+    }
+
     render() {
         var { cart } = this.props;
         console.log('CartView ' + cart)
@@ -54,7 +58,7 @@ class CartView extends Component {
                             <View style={[mainRight]}>
                                 <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                                     <Text style={txtName}>{item.product.name}</Text>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress ={() => this.onRemoveFromCart(item) } >
                                         <Text style={{ color: '#969696' }}>X</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -98,7 +102,13 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, null)(CartView);
+const mapDispatchToProps = dispatch => {
+    return {
+        onRemoveFromCart: (item) => dispatch(actRemoveFromCart(item)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartView);
 
 const { width } = Dimensions.get('window');
 const imageWidth = width / 4;
