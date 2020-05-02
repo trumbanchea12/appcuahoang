@@ -6,6 +6,7 @@ import {
 import { connect } from 'react-redux';
 import sp1 from '../../.././../media/temp/sp1.jpeg';
 import { FlatList } from 'react-native-gesture-handler';
+import { Ionicons, AntDesign } from '@expo/vector-icons'
 
 import { actRemoveFromCart } from './../../../../action/CartAtion';
 
@@ -19,22 +20,20 @@ class CartView extends Component {
     }
     showSubTotal = (price, quantity) => {
         return price * quantity;
-    }   
-    
+    }
+
     showTotalAmount = (cart) => {
         var total = 0;
-        if(cart.length > 0)
-        {
-            for(var i = 0; i < cart.length; i++)
-            {   
+        if (cart.length > 0) {
+            for (var i = 0; i < cart.length; i++) {
                 total += cart[i].product.price * cart[i].quantity;
             }
         }
-        
-        return total;
-    } 
 
-    onRemoveFromCart = ( item ) => {
+        return total;
+    }
+
+    onRemoveFromCart = (item) => {
         this.props.onRemoveFromCart(item);
     }
 
@@ -47,19 +46,19 @@ class CartView extends Component {
             product, mainRight, productController,
             txtName, txtPrice, productImage, numberOfProduct,
             txtShowDetail, showDetailContainer } = styles;
-        
+
         return (
             <View style={wrapper}>
                 <FlatList
                     data={cart}
-                    renderItem={({ item }) => 
+                    renderItem={({ item }) =>
                         <View style={product}>
                             <Image source={{ uri: `${url}${item.product.images[0]}` }} style={productImage} />
                             <View style={[mainRight]}>
                                 <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
                                     <Text style={txtName}>{item.product.name}</Text>
-                                    <TouchableOpacity onPress ={() => this.onRemoveFromCart(item) } >
-                                        <Text style={{ color: '#969696' }}>X</Text>
+                                    <TouchableOpacity onPress={() => this.onRemoveFromCart(item)} >
+                                        <Ionicons name="ios-close-circle-outline" color="black" size={30} />
                                     </TouchableOpacity>
                                 </View>
                                 <View>
@@ -68,19 +67,19 @@ class CartView extends Component {
                                 <View style={productController}>
                                     <View style={numberOfProduct}>
                                         <TouchableOpacity>
-                                            <Text>+</Text>
+                                            <AntDesign name="minus" color="black" size={30} />
                                         </TouchableOpacity>
-                                        <Text>{item.quantity}</Text>
+                                        <Text style={{fontSize: 20}}>{item.quantity}</Text>
                                         <TouchableOpacity>
-                                            <Text>-</Text>
+                                            <AntDesign name="plus" color="black" size={30} />
                                         </TouchableOpacity>
                                     </View>
                                     <TouchableOpacity style={showDetailContainer}>
                                         <Text style={txtShowDetail} onPress={() => {
                                             navigation.navigate('ProductDetail', {
-                                                product : item
+                                                product: item
                                             })
-                                        } } >SHOW DETAILS</Text>
+                                        }} >SHOW DETAILS</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
