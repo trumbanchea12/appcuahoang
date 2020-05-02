@@ -36,7 +36,7 @@ class CartView extends Component {
     } 
     render() {
         var { cart } = this.props;
-
+        console.log('CartView ' + cart)
         const { navigation } = this.props;
 
         const { main, checkoutButton, checkoutTitle, wrapper,
@@ -74,7 +74,7 @@ class CartView extends Component {
                                     <TouchableOpacity style={showDetailContainer}>
                                         <Text style={txtShowDetail} onPress={() => {
                                             navigation.navigate('ProductDetail', {
-                                                product : item.product
+                                                product : item
                                             })
                                         } } >SHOW DETAILS</Text>
                                     </TouchableOpacity>

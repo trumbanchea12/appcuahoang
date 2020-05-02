@@ -20,13 +20,14 @@ class ProductDetail extends Component {
         navigation.pop();
     }
     onAddToCart = (product) => {
-        console.log('lol')
+        console.log('ProductDetail redux : ')
         this.props.onAddToCart(product);
     }
     render() {
         const { route } = this.props;
 
-        const { product } = route.params;
+        const { product } = route.params; 
+        console.log(product);
 
         const {
             wrapper, cardStyle, header,
@@ -48,7 +49,7 @@ class ProductDetail extends Component {
                     </View>
                     <View style={imageContainer}>
                         <ScrollView style={{ flexDirection: 'row', padding: 10, height: swiperHeight }} horizontal >
-                            {product.images.map(e => (
+                            {product.product.images.map(e => (
                                 <Image source={{ uri: `${url}${e}` }} style={productImageStyle} key={e} />
                             ))}
                         </ScrollView>
@@ -56,15 +57,15 @@ class ProductDetail extends Component {
                     <View style={footer}>
                         <View style={titleContainer}>
                             <Text style={textMain}>
-                                <Text style={textBlack}>{product.name.toUpperCase()}</Text>
+                                <Text style={textBlack}>{product.product.name.toUpperCase()}</Text>
                                 <Text style={textHighlight}> / </Text>
                                 <Text style={textSmoke}>{product.price} VNĐ</Text>
                             </Text>
                         </View>
                         <View style={descContainer}>
-                            <Text style={descStyle}>{product.description}</Text>
+                            <Text style={descStyle}>{product.product.description}</Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 15 }}>
-                                <Text style={txtMaterial}>Material: {product.material}</Text>
+                                <Text style={txtMaterial}>Material: {product.product.material}</Text>
                                 {/* <View style={{ flexDirection: 'row' }} >
                                     <Text style={txtColor}>{color}</Text>
                                     <View style={{ height: 15, width: 15, backgroundColor: 'black'.toLowerCase(), borderRadius: 15, marginLeft: 10, borderWidth: 1, borderColor: '#C21C70' }} />
@@ -79,7 +80,7 @@ class ProductDetail extends Component {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onAddToCart: (product) => dispatch(actAddToCart({ product, quantity: 1 })),
+        onAddToCart: (product) => dispatch(actAddToCart(product,1)),
     }
 }
 export default connect(null, mapDispatchToProps)(ProductDetail);

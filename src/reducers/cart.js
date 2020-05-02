@@ -43,8 +43,10 @@ var initialState = [
 const cart = (state = initialState, action) => {
    switch (action.type) {
       case types.ADD_TO_CART:
-         console.log("Cart action" + action)
-         return [...state];
+         console.log('ADD_TO_CART_SUCCESS state', state)
+         const huyhoang = [...state, action.product]
+         console.log("Cart action" + JSON.stringify(huyhoang))
+         return [...state, action.product];
       default: return [...state];
    }
 }
