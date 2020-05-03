@@ -2,6 +2,7 @@ import React, { Component, ReactElement } from 'react'
 import { View, Text, TouchableOpacity, Image } from 'react-native'
 import logoHome from '../../../media/appIcon/home.png'
 import { Ionicons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -43,14 +44,16 @@ function IconWithBadge({ name, badgeCount, color, size }) {
 
 function CartIconWithBadge(props) {
   // You should pass down the badgeCount in some other ways like React Context API, Redux, MobX or event emitters.
-  return <IconWithBadge {...props} badgeCount={3} />;
+  return <IconWithBadge {...props} />;
 }
 
 // =============== END  Hiển thị số lượng ở bottomMenu =============
 
-function MyTagMenu() {
-  return (
-    <Tab.Navigator
+class Shop extends Component {
+  render() {
+    const { cart } = this.props;
+    return (
+      <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
@@ -67,6 +70,7 @@ function MyTagMenu() {
                 }
                 size={size}
                 color={color}
+                badgeCount={cart.length}
               />
             );
           } else if (route.name === 'Search') {
@@ -89,13 +93,14 @@ function MyTagMenu() {
       <Tab.Screen name="Search" component={Search} />
       <Tab.Screen name="Contact" component={Contact} />
     </Tab.Navigator>
-  );
-}
-
-export default class Shop extends Component {
-  render() {
-    return (
-      <MyTagMenu />
     )
   }
+
 }
+const mapStateToProps = state => {
+    return {
+      cart : state.cart
+    }
+} 
+
+export default connect(mapStateToProps, null)(Shop);
