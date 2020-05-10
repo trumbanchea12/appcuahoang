@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 // import sp3 from '../../../../media/temp/sp3.jpeg';
 // import sp4 from '../../../../media/temp/sp4.jpeg';
 
-const url = 'http://vaomua.club/ungdung/images/product/';
+const url = 'http://vaomua.club/public/user/image/images/';
 
 class TopProduct extends Component {
         
@@ -31,9 +31,9 @@ class TopProduct extends Component {
 
                             } )}} 
                             key={e.id}>
-                            <Image source={{ uri: `${url}${e.product.images[0]}` }} style={productImage} />
-                            <Text style={productName}>{e.product.name.toUpperCase()}</Text>
-                            <Text style={productPrice}>{e.product.price}VNĐ</Text>
+                            <Image source={{ uri: `${url}${e.sanpham_anh}` }} style={productImage} />
+                            <Text style={productName}>{e.sanpham_ten.toUpperCase()}</Text>
+                            <Text style={productPrice}>{e.gia_tien}VNĐ</Text>
                         </TouchableOpacity>
                     ))}
                 </View>

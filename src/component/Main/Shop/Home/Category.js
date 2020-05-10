@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper'
 import littleIcon from '../../../../media/temp/little.jpg'
 
 const { height, width } = Dimensions.get('window');
-const url = 'http://vaomua.club/ungdung/images/type/';
+const url = 'http://192.168.0.114:8080/api/images/type/';
 
 export default class Category extends Component {
 

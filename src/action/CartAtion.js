@@ -13,3 +13,17 @@ export const actRemoveFromCart = (item) => {
         item
     }
 }
+
+export const actUpQuantityCart = (item) => {
+    return {
+        type: types.UP_QUANTITY_CART,
+        item
+    }
+}
+
+export const actDownQuantityCart = (item) => {
+    return {
+        type: types.DOWN_QUANTITY_CART,
+        item
+    }
+}

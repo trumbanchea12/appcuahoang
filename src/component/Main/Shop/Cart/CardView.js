@@ -8,9 +8,9 @@ import sp1 from '../../.././../media/temp/sp1.jpeg';
 import { FlatList } from 'react-native-gesture-handler';
 import { Ionicons, AntDesign } from '@expo/vector-icons'
 
-import { actRemoveFromCart } from './../../../../action/CartAtion';
+import { actRemoveFromCart, actUpQuantityCart, actDownQuantityCart } from './../../../../action/CartAtion';
 
-const url = 'http://vaomua.club/ungdung/images/product/';
+const url = 'http://vaomua.club/public/user/image/images/';
 
 class CartView extends Component {
     gotoDetail() {
@@ -26,20 +26,29 @@ class CartView extends Component {
         var total = 0;
         if (cart.length > 0) {
             for (var i = 0; i < cart.length; i++) {
-                total += cart[i].product.price * cart[i].quantity;
+                // total += cart[i].product.price * cart[i].quantity; bản đầu tiên
+                total += cart[i].price * cart[i].qty;
             }
         }
-
-        return total;
+        
+        return total.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     }
 
     onRemoveFromCart = (item) => {
         this.props.onRemoveFromCart(item);
     }
 
+    onUpdateQuantity =(item) => {
+        this.props.onUpdateQuantity(item);
+    }
+
+    onDownQuantity =(item) => {
+        this.props.onDownQuantity(item);
+    }
+
     render() {
         var { cart } = this.props;
-        console.log('CartView ' + cart)
+        console.log('CartView ' + cart );
         const { navigation } = this.props;
 
         const { main, checkoutButton, checkoutTitle, wrapper,
@@ -53,24 +62,24 @@ class CartView extends Component {
                     data={cart}
                     renderItem={({ item }) =>
                         <View style={product}>
-                            <Image source={{ uri: `${url}${item.product.images[0]}` }} style={productImage} />
+                            <Image source={{ uri: `${url}${item.options.image}` }} style={productImage} />
                             <View style={[mainRight]}>
                                 <View style={{ justifyContent: 'space-between', flexDirection: 'row' }}>
-                                    <Text style={txtName}>{item.product.name}</Text>
+                                    <Text style={txtName}>{item.name}</Text>
                                     <TouchableOpacity onPress={() => this.onRemoveFromCart(item)} >
                                         <Ionicons name="ios-close-circle-outline" color="black" size={30} />
                                     </TouchableOpacity>
                                 </View>
                                 <View>
-                                    <Text style={txtPrice}>{item.product.price * item.quantity}$</Text>
+                                    <Text style={txtPrice}>{item.price * item.qty}$</Text>
                                 </View>
                                 <View style={productController}>
                                     <View style={numberOfProduct}>
-                                        <TouchableOpacity>
+                                        <TouchableOpacity onPress={() => this.onDownQuantity(item)} >
                                             <AntDesign name="minus" color="black" size={30} />
                                         </TouchableOpacity>
-                                        <Text style={{fontSize: 20}}>{item.quantity}</Text>
-                                        <TouchableOpacity>
+                                        <Text style={{fontSize: 20}}>{item.qty}</Text>
+                                        <TouchableOpacity onPress={() => this.onUpdateQuantity(item)}>
                                             <AntDesign name="plus" color="black" size={30} />
                                         </TouchableOpacity>
                                     </View>
@@ -88,7 +97,7 @@ class CartView extends Component {
                     keyExtractor={(item, index) => index.toString()}
                 />
                 <TouchableOpacity style={checkoutButton}>
-                    <Text style={checkoutTitle}>TOTAL {this.showTotalAmount(cart)}$ CHECKOUT NOW</Text>
+                    <Text style={checkoutTitle}>Tổng tiền {this.showTotalAmount(cart)} VNĐ (Thanh toán ngay)</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -104,6 +113,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onRemoveFromCart: (item) => dispatch(actRemoveFromCart(item)),
+        onUpdateQuantity: (item) => dispatch(actUpQuantityCart(item)),
+        onDownQuantity  : (item) => dispatch(actDownQuantityCart(item))
     }
 }
 

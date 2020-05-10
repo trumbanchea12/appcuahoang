@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {
     View, Text, StyleSheet, Image, Dimensions, ScrollView, TouchableOpacity
 } from 'react-native';
-
+import HTML from 'react-native-render-html';
 import { actAddToCart } from '../../../../action/CartAtion';
 import { connect } from 'react-redux';
 
@@ -12,7 +12,7 @@ import img2 from '../../../../media/temp/sp4.jpeg';
 const back = require('../../../../media/appIcon/back.png');
 const cart = require('../../../../media/appIcon/cartfull.png');
 
-const url = 'http://vaomua.club/ungdung/images/product/';
+const url = 'http://vaomua.club/public/user/image/images/';
 
 class ProductDetail extends Component {
     goBack() {
@@ -26,8 +26,7 @@ class ProductDetail extends Component {
     render() {
         const { route } = this.props;
 
-        const { product } = route.params; 
-        console.log(product);
+        const { product } = route.params;
 
         const {
             wrapper, cardStyle, header,
@@ -49,38 +48,40 @@ class ProductDetail extends Component {
                     </View>
                     <View style={imageContainer}>
                         <ScrollView style={{ flexDirection: 'row', padding: 10, height: swiperHeight }} horizontal >
-                            {product.product.images.map(e => (
-                                <Image source={{ uri: `${url}${e}` }} style={productImageStyle} key={e} />
-                            ))}
+                                <Image source={{ uri: `${url}${product.sanpham_anh}` }} style={productImageStyle} />
                         </ScrollView>
                     </View>
                     <View style={footer}>
                         <View style={titleContainer}>
                             <Text style={textMain}>
-                                <Text style={textBlack}>{product.product.name.toUpperCase()}</Text>
+                                <Text style={textBlack}>{product.sanpham_ten.toUpperCase()}</Text>
                                 <Text style={textHighlight}> / </Text>
-                                <Text style={textSmoke}>{product.price} VNĐ</Text>
+                                <Text style={textSmoke}>{product.gia_tien} VNĐ</Text>
                             </Text>
+                            <Text style={txtMaterial}>Khuyến mãi: {product.phan_tram_km} %</Text>
                         </View>
-                        <View style={descContainer}>
-                            <Text style={descStyle}>{product.product.description}</Text>
+                        <ScrollView style={descContainer}>
+                            {/* <Text style={descStyle}>{product.sanpham_mo_ta}</Text> */}
+
+                            <HTML html={product.sanpham_mo_ta} imagesMaxWidth={Dimensions.get('window').width} />
+
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingTop: 15 }}>
-                                <Text style={txtMaterial}>Material: {product.product.material}</Text>
                                 {/* <View style={{ flexDirection: 'row' }} >
                                     <Text style={txtColor}>{color}</Text>
                                     <View style={{ height: 15, width: 15, backgroundColor: 'black'.toLowerCase(), borderRadius: 15, marginLeft: 10, borderWidth: 1, borderColor: '#C21C70' }} />
                                 </View> */}
                             </View>
-                        </View>
+                        </ScrollView>
                     </View>
                 </View>
+
             </View>
         );
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onAddToCart: (product) => dispatch(actAddToCart(product,1)),
+        onAddToCart: (product) => dispatch(actAddToCart(product, 1)),
     }
 }
 export default connect(null, mapDispatchToProps)(ProductDetail);

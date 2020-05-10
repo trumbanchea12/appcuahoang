@@ -20,7 +20,7 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        fetch('http://vaomua.club/ungdung')
+        fetch('http://192.168.0.114:8080/api')
           .then((response) => response.json())
           .then((resJson) => {
             const {type, product} = resJson;
