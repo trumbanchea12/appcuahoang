@@ -50,36 +50,56 @@ const cart = (state = initialState, action) => {
             ...state.filter(i => i.id !== action.item.id)
          ];
          return remaingList;
+
       case types.UP_QUANTITY_CART:
+         var exists = false;
          const upQuantity = state.map(item => {
             if (item.id === action.item.id) {
+               exists = true;
                return {
                   ...item,
                   // quantity: item.quantity + 1
                   qty: item.qty + 1,
                }
+            } else {
+               return item;
             }
          });
-         return upQuantity;
+         if (exists) {
+            return upQuantity;
+         }
+         else {
+            return [...state]
+         }
+
       case types.DOWN_QUANTITY_CART:
+         var exists = false;
          const downQuantity = state.map(item => {
             if (item.id === action.item.id) {
-               if(item.qty <= 1)
-               {
+               exists = true;
+               if (item.qty <= 1) {
                   return {
                      ...item,
                      // quantity: item.quantity + 1
                      qty: 1,
                   }
-               }
-               return {
-                  ...item,
-                  // quantity: item.quantity + 1
-                  qty: item.qty - 1,
+               } else {
+                  return {
+                     ...item,
+                     // quantity: item.quantity + 1
+                     qty: item.qty - 1,
+                  }
                }
             }
+            else {
+               return item;
+            }
          });
-         return downQuantity;
+         if (exists) {
+            return downQuantity;
+         } else {
+            return [...state];
+         }
 
       default: return [...state];
    }

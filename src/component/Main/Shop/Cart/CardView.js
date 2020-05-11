@@ -48,7 +48,7 @@ class CartView extends Component {
 
     render() {
         var { cart } = this.props;
-        console.log('CartView ' + cart );
+        console.log('CartView ' + JSON.stringify(cart) );
         const { navigation } = this.props;
 
         const { main, checkoutButton, checkoutTitle, wrapper,
@@ -71,7 +71,7 @@ class CartView extends Component {
                                     </TouchableOpacity>
                                 </View>
                                 <View>
-                                    <Text style={txtPrice}>{item.price * item.qty}$</Text>
+                                    <Text style={txtPrice}>{(item.price * item.qty).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")}$</Text>
                                 </View>
                                 <View style={productController}>
                                     <View style={numberOfProduct}>
