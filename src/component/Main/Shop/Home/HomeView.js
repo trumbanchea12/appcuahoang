@@ -19,19 +19,19 @@ export default class Home extends Component {
         }
     }
 
-    componentDidMount() {
-        fetch('http://192.168.0.114:8080/api')
-          .then((response) => response.json())
-          .then((resJson) => {
-            const {type, product} = resJson;
-            this.setState({
-                types: type,
-            })
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
+    // componentDidMount() {
+    //     fetch('http://192.168.1.106:8080/api:8080/api')
+    //       .then((response) => response.json())
+    //       .then((resJson) => {
+    //         const {type, product} = resJson;
+    //         this.setState({
+    //             types: type,
+    //         })
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   }
 
     openMenu() {
         this.props.navigation.openDrawer();

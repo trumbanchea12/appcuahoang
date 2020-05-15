@@ -8,20 +8,20 @@ const cart = (state = initialState, action) => {
       case types.ADD_TO_CART:
          console.log('ADD_TO_CART_SUCCESS state', state);
          var gioHang = {
-            "id": action.product.id,
-            "name": action.product.sanpham_ten,
+            "id": action.item.id,
+            "name": action.item.sanpham_ten,
             "qty": 1,
-            "price": action.product.gia_tien,
+            "price": action.item.gia_tien,
             "weight": 30000,
             "options": {
-               "image": action.product.sanpham_anh,
+               "image": action.item.sanpham_anh,
                "donvitinh": "kg",
-               "shop_id": action.product.shop_id,
-               "lohang_id": action.product.lohang_id
+               "shop_id": action.item.shop_id,
+               "lohang_id": action.item.lohang_id
             },
             "discount": 0,
             "tax": 5040,
-            "subtotal": action.product.gia_tien
+            "subtotal": action.item.gia_tien
 
          }
          const huyhoang = [...state, action.product];

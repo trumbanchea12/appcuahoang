@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity } from 'react-native';
 
 import Main from './Main';
 import Shop from './Shop/Shop';
@@ -11,7 +10,6 @@ import MenuLogin from './MenuLogin';
 import MenuLogOut from './MenuLogOut';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { NavigationContainer } from '@react-navigation/native';
 
 const Drawer = createDrawerNavigator();
 
@@ -31,7 +29,7 @@ export default class Menu extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isLogedIn: true,
+            isLogedIn: false,
         };
     }
 

@@ -1,14 +1,25 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, TextInput, ScrollView, Alert } from 'react-native';
+// Redux
+import { actSignUpRequest } from '../../action/SignUpAction';
+import { connect } from 'react-redux';
 
 import icBack from '../../media/appIcon/back_white.png';
 import icLogo from '../../media/appIcon/ic_logo.png';
 
-export default class Authantication extends Component {
-    constructor(props){
+class Authantication extends Component {
+    constructor(props) {
         super(props);
         this.state = {
-            isSignIn: true
+            isSignIn: true,
+            info: {
+                email: '',
+                name: '',
+                password: '',
+                diachi: '',
+                sodienthoai: ''
+            },
+            repassword : '',
         }
     }
     signIn() {
@@ -22,6 +33,25 @@ export default class Authantication extends Component {
         const { navigation } = this.props;
         navigation.navigate('Menu');
     }
+
+    onSignUp = (info) => {
+        console.log("Acticon sign-in");
+        this.props.onSignUp(info);
+    }
+
+    clearText(fieldName) {
+        this.refs[fieldName].setNativeProps({text: ''});
+    }
+
+    clearAllTextInput(){
+        this.clearText('txtEmail');
+        this.clearText('txtName');
+        this.clearText('txtAddress');
+        this.clearText('txtPhone');
+        this.clearText('txtPass');
+        this.clearText('txtRePass');
+    }
+
     render() {
         const { row1, iconStyle, titleStyle,
             container, controlStyle, singInStyle,
@@ -29,28 +59,110 @@ export default class Authantication extends Component {
             inputStyle, bigButton, buttonText
         } = styles;
 
+        const { signup } = this.props;
+
         const signInJSX = (
-            <View>
+            <ScrollView>
                 <TextInput style={inputStyle} placeholder="Enter your Email / Username" />
                 <TextInput style={inputStyle} placeholder="Enter your password" />
-                <TouchableOpacity style={bigButton} >
+                <TouchableOpacity style={bigButton}>
                     <Text style={buttonText} >SIGN IN NOW</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         );
-        
+
         const signUpJSX = (
-            <View>
-                    <TextInput style={inputStyle} placeholder="Enter your name" />
-                    <TextInput style={inputStyle} placeholder="Enter your email" />
-                    <TextInput style={inputStyle} placeholder="Enter your password" />
-                    <TextInput style={inputStyle} placeholder="Re-enter your password" />
-                    <TouchableOpacity style={bigButton} >
-                        <Text style={buttonText} >SIGN UP NOW</Text>
-                    </TouchableOpacity>
-                </View>
+            <ScrollView>
+                <TextInput style={inputStyle} ref={'txtEmail'} placeholder="Enter your email"
+                    onChangeText={(text) => {
+                        this.setState({ 
+                            info: {
+                                ...this.state.info,
+                                email: text
+                            }
+                         });
+                    }}
+                />
+                <TextInput style={inputStyle} ref={'txtName'} placeholder="Enter your name"
+                    onChangeText={(text) => {
+                        this.setState({ 
+                            info: {
+                                ...this.state.info,
+                                name : text
+                            }
+                         });
+                    }}
+                 />
+                <TextInput style={inputStyle} ref={'txtAddress'} placeholder="Enter your address"
+                    onChangeText={(text) => {
+                        this.setState({ 
+                            info: {
+                                ...this.state.info,
+                                diachi: text
+                            }
+                         });
+                    }}
+                 />
+                <TextInput style={inputStyle} ref={'txtPhone'} placeholder="Enter your number phone"
+                    onChangeText={(text) => {
+                        this.setState({ 
+                            info: {
+                                ...this.state.info,
+                                sodienthoai: text
+                            }
+                         });
+                    }}
+                 />
+                <TextInput style={inputStyle} ref={'txtPass'} placeholder="Enter your password"
+                    onChangeText={(text) => {
+                        this.setState({ 
+                            info: {
+                                ...this.state.info,
+                                password: text
+                            }
+                         });
+                    }}
+                 />
+                <TextInput style={inputStyle} ref={'txtRePass'} placeholder="Re-enter your password"
+                    onChangeText={(text) => {
+                        this.setState({ 
+                            repassword: text
+                         });
+                    }}
+                 />
+                <TouchableOpacity style={bigButton} onPress ={()=>{
+                    if(this.state.info.password !== this.state.repassword)
+                    {
+                        Alert.alert("Mật khẩu nhập lại không đúng !");
+                    }
+                    else if(this.state.info.name == '' || this.state.info.email == ''|| this.state.info.diachi == '' || this.state.info.sodienthoai == '')
+                    {
+                        Alert.alert("Vui lòng nhập đủ thông tin !");
+                    }
+                    else
+                    {
+                        this.onSignUp(this.state.info);
+                        if(signup == null)
+                        {  
+                            Alert.alert("Đăng kí không thành công !");
+                        }
+                        else
+                        {
+                            this.clearAllTextInput();
+                            Alert.alert("Thông báo !", "Đăng kí thành công", [
+                                {
+                                    text: "Tiếp tục",
+                                    onPress: () => { this.setState({ isSignIn : true })}
+                                }
+                            ]);
+                        }
+                    }
+                }} >
+                    <Text style={buttonText} >SIGN UP NOW</Text>
+                </TouchableOpacity>
+            </ScrollView>
         );
-        
+                    
         const { isSignIn } = this.state;
         const mainJSX = isSignIn ? signInJSX : signUpJSX;
 
@@ -58,7 +170,7 @@ export default class Authantication extends Component {
             <View style={container}>
                 <View style={row1}>
                     <TouchableOpacity onPress={this.goBackToMain.bind(this)} >
-                        <Image source={icBack} style={iconStyle}/>
+                        <Image source={icBack} style={iconStyle} />
                     </TouchableOpacity>
                     <Text style={titleStyle}>Nông sản</Text>
                     <TouchableOpacity>
@@ -67,10 +179,10 @@ export default class Authantication extends Component {
                 </View>
                 {mainJSX}
                 <View style={controlStyle} >
-                    <TouchableOpacity style={singInStyle}  onPress={this.signIn.bind(this)} >
+                    <TouchableOpacity style={singInStyle} onPress={this.signIn.bind(this)} >
                         <Text style={isSignIn ? activeStyle : inactiveStyle} >SIGN IN</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={signUpStyle}  onPress={this.signUp.bind(this)} >
+                    <TouchableOpacity style={signUpStyle} onPress={this.signUp.bind(this)} >
                         <Text style={!isSignIn ? activeStyle : inactiveStyle} >SIGN UP</Text>
                     </TouchableOpacity>
                 </View>
@@ -78,6 +190,20 @@ export default class Authantication extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return {
+        signup: state.signup
+    }
+}
+
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onSignUp : (info) => {dispatch(actSignUpRequest(info))},
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Authantication);
 
 const styles = StyleSheet.create({
     container: {
@@ -88,7 +214,7 @@ const styles = StyleSheet.create({
     },
     row1: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3, alignItems: 'center' },
     iconStyle: { width: 30, height: 30 },
-    titleStyle: { color: '#FFF',  fontSize: 30 },
+    titleStyle: { color: '#FFF', fontSize: 30 },
     controlStyle: {
         flexDirection: 'row',
 
@@ -133,7 +259,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     buttonText: {
-        
+
         color: '#FFF',
         fontWeight: '400'
     },

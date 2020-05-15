@@ -56,7 +56,7 @@ class ProductDetail extends Component {
                             <Text style={textMain}>
                                 <Text style={textBlack}>{product.sanpham_ten.toUpperCase()}</Text>
                                 <Text style={textHighlight}> / </Text>
-                                <Text style={textSmoke}>{product.gia_tien} VNĐ</Text>
+                                <Text style={textSmoke}>{(product.gia_tien).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.")} VNĐ</Text>
                             </Text>
                             <Text style={txtMaterial}>Khuyến mãi: {product.phan_tram_km} %</Text>
                         </View>

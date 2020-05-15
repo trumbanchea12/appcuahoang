@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import products from './products';
+import topproducts from './topproducts';
 import cart from './cart';
+import signup from './signup';
 
 const appReducers = combineReducers({
-    products,
+    topproducts,
     cart,
+    signup,
 });
 
 export default appReducers;

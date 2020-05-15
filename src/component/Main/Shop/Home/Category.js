@@ -5,7 +5,7 @@ import Swiper from 'react-native-swiper'
 import littleIcon from '../../../../media/temp/little.jpg'
 
 const { height, width } = Dimensions.get('window');
-const url = 'http://192.168.0.114:8080/api/images/type/';
+const url = 'http://192.168.1.106:8080/api:8080/api/images/type/';
 
 export default class Category extends Component {
 
@@ -23,7 +23,7 @@ export default class Category extends Component {
                     <Text style={textStyle}>LIST OF CATEGORY</Text>
                 </View>
                 <View style={{ flex: 3 }}>
-                    <Swiper width={imageWidth} height={imageHeight} >
+                    {/* <Swiper width={imageWidth} height={imageHeight} >
                         {types.map(e => (
                             <TouchableOpacity onPress={this.gotoListProduct.bind(this)} key={e.id} >
                                 <ImageBackground source={{uri: `${url}${e.image}`}} style={imageStyle}>
@@ -32,7 +32,7 @@ export default class Category extends Component {
                             </TouchableOpacity>
                             
                         ))}
-                    </Swiper>
+                    </Swiper> */}
                 </View>
             </View>
         )
