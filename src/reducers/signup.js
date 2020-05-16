@@ -1,7 +1,7 @@
 import * as types from '../constants/ActionType';
 
 const initialState = {
-    infoUser: {},
+    infoUser: [],
 };
 
 const signup = (state = initialState, action) => {

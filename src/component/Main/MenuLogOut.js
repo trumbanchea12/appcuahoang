@@ -27,7 +27,7 @@ function MenuLogOut(props) {
                                 size={50}
                             />
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>Pham Huy Hoang</Title>
+                                <Title style={styles.title}>Khách hàng</Title>
                             </View>
                         </View>
                     </View>

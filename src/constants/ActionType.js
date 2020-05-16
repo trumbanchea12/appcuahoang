@@ -1,4 +1,8 @@
-// Dang ki - dang nhap
+// Đăng nhập - Thông tin User
+export const SIGN_IN = 'SIGN_IN';
+export const SIGN_IN_FAIL = 'SIGN_IN_FAIL';
+
+// Dang ki
 
 export const SIGN_UP = 'SIGN_UP';
 
