@@ -6,10 +6,11 @@ import { createStore } from 'redux';
 import App from './src/component/App';
 import appReducers from './src/reducers/index';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 
 const store = createStore(
   appReducers,
-
+  applyMiddleware(thunk)
 );
 
 
